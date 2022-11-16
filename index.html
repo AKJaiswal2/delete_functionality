@@ -136,11 +136,7 @@
                 
                  body1 = `My Hobbies are ${hobbie2}.`
            }
-
-           fetchname.innerHTML = `<p>${header}<br>
-                ${body1}<br>
-                ${footer}.</p>`;
-
+      display();
            
     }
         
@@ -168,6 +164,14 @@
 
                  }
             }
+       }
+
+       function display()
+       {
+        
+        fetchname.innerHTML = `<p>${header}<br>
+                ${body1}<br>
+                ${footer}.</p>`;
        }
 
        function removehobbies()
@@ -212,9 +216,7 @@
          updatedhobbies = updatedhobbies.slice(0,index)+"&"+updatedhobbies.slice(index+1,updatedhobbies.length);
          body1=`My Hobbies are ${updatedhobbies}`;
         }
-        fetchname.innerHTML = `<p>${header}<br>
-                ${body1}<br>
-                ${footer}.</p>`;
+        display();
 
 
        }
