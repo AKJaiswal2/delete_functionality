@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .px1{
+            
+            margin-top: 30px;
+            margin-left: 560px;
+            background: #CCCCCC;
+           height: 150px;
+           width: 450px;
+            position: relative;
+            
+            
+        }
+
+    </style>
+</head>
+<body>
+
+                <center>
+    
+                <div id="updatename">
+                    <th>Name</th>
+                    <td><input type="text" name="fname" id="fname" oninput="addnq()"></td>
+                </div>
+                <br>
+                <br>
+            
+                <div id="updateq">
+                    <th>Qualification</th>
+                    <td><input type="text" name="fq" id="fq" oninput="addnq()"></td>
+                </div>
+                <br>
+                <br>
+                <div id="hobbie">
+                    <th>Hobbie</th>
+                    <br>
+                    <br>
+                    </div>
+                </div>  
+                <br>
+                <br>
+                <tr  id="btna">
+                    <td><input type="button" name="button" id="btn" value="Add Hobbies" onclick="addrow()"></td>
+
+                </tr>
+                </center>
+            
+
+    <div id="paragraph" class="px1" >
+     <p>I, ______, would like to apply for an internship at your organisation.<br>
+        My Qualification is __________.<br>
+        My hobbies are ______, ________ & __________.<br>
+        Thanking you,<br>
+        Your Sincerely<br>
+        _____________</p>
+
+    </div>
+
+    <script>
+        var name="";
+        var qualification="";
+        let additioncounter=0;
+        let deletioncounter=0;
+        var hobbie="";
+        var hobbie2="";
+        var additionid;
+        var deletionid;
+        var arr=[];
+        var header="";
+        var footer="";
+        var body1="";
+        var fetchname;
+      
+        
+        function addnq(){
+         name = document.getElementById('fname').value;
+         qualification = document.getElementById('fq').value;
+         if(additioncounter>0)
+         {
+         additionid = "fh"+additioncounter;
+         hobbie = document.getElementById(additionid).value;
+         }
+         arr[additioncounter-1]=hobbie;
+         fetchname = document.getElementById('paragraph');
+          header = `I,${name}, would like to apply for an internship at your organisation.<br>My Qualification is ${qualification}.`;
+          body1="Please Enter A hobbie";
+          footer = ` Thanking you,<br>Your Sincerely<br>${name}`;
+          let counter=0;
+          let k=0;
+          for(let i=0;i<arr.length;i++)
+          {
+              if(arr[i]!="")
+              {
+                counter++;
+              }
+          }
+          for(let i=0;i<arr.length;i++)
+          {
+              if(arr[i]!="")
+              {
+                k=i;
+                break;
+              }
+          }
+         if(counter==1)
+            {
+                body1 = `My Hobbie is ${hobbie}.`;
+            }
+            if(counter>1)
+            {
+                hobbie2="";
+                for(let i=0;i<arr.length-1;i++)
+                {
+                    
+                    if(i==k)
+                    {
+                        hobbie2 = arr[i]; 
+                        break;
+                    }
+                }
+                for(let i=k+1;i<arr.length-1;i++)
+                {
+                    if(arr[i]!="")
+                    {
+                    hobbie2 = hobbie2+","+arr[i];
+                    }
+                }
+                  var lastelementid="fh"+(arr.length);
+                  hobbie2=hobbie2+"&"+document.getElementById(lastelementid).value;
+                
+                 body1 = `My Hobbies are ${hobbie2}.`
+           }
+
+           fetchname.innerHTML = `<p>${header}<br>
+                ${body1}<br>
+                ${footer}.</p>`;
+
+           
+    }
+        
+          function validation(id)
+        {
+            if(arr.length>=2)
+            {
+                for(let i=1;i<arr.length;i++)
+                 {
+                    for(j=arr.length-1;j>i;j--)
+                       {
+                           arr[i]=arr[i].toLowerCase();
+                           arr[j]=arr[j].toLowerCase();
+                           if((arr[i]===arr[j])&&(arr[i]!="")&&(arr[j]!=""))
+                          {
+                              alert("Enter Different Hobbie");
+                              document.getElementById(id).value="";
+                              document.getElementById(id).focus();
+                              document.getElementById(id).select();
+                              addnq();
+                              break;
+                          }
+            
+                       }
+
+                 }
+            }
+       }
+
+       function removehobbies()
+       {
+          var updatedhobbies="";
+          var totalelements=0;
+          var k=0;
+          for(let i=0;i<arr.length;i++)
+          {
+            if(arr[i]!="")
+            {
+                totalelements++;
+                k=i;
+            }
+          }
+         if(totalelements==0)
+         {
+            updatedhobbies="Please Enter a hobbie";
+            body1=updatedhobbies;
+         }
+         if(totalelements==1)
+         {
+            updatedhobbies=`My Hobbie is ${arr[k]}`;
+            body1=updatedhobbies; 
+         }
+         if(totalelements>1)
+         {
+            for(let i=0;i<arr.length;i++)
+            {
+                if(arr[i]!=""&&updatedhobbies!="")
+                {
+                    updatedhobbies=updatedhobbies+","+arr[i];
+                }
+                if(arr[i]!=""&&updatedhobbies=="")
+                {
+                    updatedhobbies=arr[i];
+
+                }
+            }
+
+         var index = updatedhobbies.lastIndexOf(",");
+         updatedhobbies = updatedhobbies.slice(0,index)+"&"+updatedhobbies.slice(index+1,updatedhobbies.length);
+         body1=`My Hobbies are ${updatedhobbies}`;
+        }
+        fetchname.innerHTML = `<p>${header}<br>
+                ${body1}<br>
+                ${footer}.</p>`;
+
+
+       }
+
+       function del(deletioncounter)
+       { 
+         var id1 = "updatehobbie"+deletioncounter;
+         var get = document.getElementById(id1);
+        
+         //         get.parentNode.parentNode.removeChild(get);
+         var id = "fh"+deletioncounter;
+         var d = document.getElementById(id);
+         d.value="";
+         arr[deletioncounter-1]=d.value;
+            get.removeChild(d);
+
+            var id2 = "bt"+deletioncounter;
+           var j = document.getElementById(id2);
+           j.style.visibility='hidden';
+         get.parentNode.remove();
+         removehobbies();
+
+
+          
+
+
+       }
+
+       function getid(id)
+       {
+          var number = id.slice(2,id.length);
+          additioncounter=number; 
+          addnq();
+       }
+
+       function getidofelementtobedeleted(id)
+       {
+         var number = id.slice(2,id.length);
+         deletioncounter=number;
+         del(deletioncounter);
+       }
+
+      function addrow(){
+            var get = document.getElementById('hobbie');
+            additioncounter++;
+            var hobbiediv = document.createElement("child");
+            hobbiediv.innerHTML=`<div id="updatehobbie${additioncounter}">
+                    <td><input type="text" name="fh" id="fh${additioncounter}" oninput="getid(id)" onchange="validation(id)"><button id="bt${additioncounter}" onclick="getidofelementtobedeleted(id)">Delete</button></td>
+                </div>  
+                <br>`;
+            get.appendChild(hobbiediv);
+    }
+    </script>
+    
+</body>
+</html>
