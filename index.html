@@ -79,64 +79,21 @@
       
         
         function addnq(){
-         name = document.getElementById('fname').value;
-         qualification = document.getElementById('fq').value;
+         var name = document.getElementById('fname').value;
+         var qualification = document.getElementById('fq').value;
          if(additioncounter>0)
          {
          additionid = "fh"+additioncounter;
          hobbie = document.getElementById(additionid).value;
-         }
          arr[additioncounter-1]=hobbie;
+
+         }
          fetchname = document.getElementById('paragraph');
           header = `I,${name}, would like to apply for an internship at your organisation.<br>My Qualification is ${qualification}.`;
           body1="Please Enter A hobbie";
           footer = ` Thanking you,<br>Your Sincerely<br>${name}`;
-          let counter=0;
-          let k=0;
-          for(let i=0;i<arr.length;i++)
-          {
-              if(arr[i]!="")
-              {
-                counter++;
-              }
-          }
-          for(let i=0;i<arr.length;i++)
-          {
-              if(arr[i]!="")
-              {
-                k=i;
-                break;
-              }
-          }
-         if(counter==1)
-            {
-                body1 = `My Hobbie is ${hobbie}.`;
-            }
-            if(counter>1)
-            {
-                hobbie2="";
-                for(let i=0;i<arr.length-1;i++)
-                {
-                    
-                    if(i==k)
-                    {
-                        hobbie2 = arr[i]; 
-                        break;
-                    }
-                }
-                for(let i=k+1;i<arr.length-1;i++)
-                {
-                    if(arr[i]!=""&&arr[i]!=undefined)
-                    {
-                    hobbie2 = hobbie2+","+arr[i];
-                    }
-                }
-                  var lastelementid="fh"+(arr.length);
-                  hobbie2=hobbie2+"&"+document.getElementById(lastelementid).value;
-                
-                 body1 = `My Hobbies are ${hobbie2}.`
-           }
-      display();
+          
+           display();
            
     }
         
@@ -168,58 +125,55 @@
 
        function display()
        {
+        body1="My Hobbie is ";
+        let counter=0;
+          let k=0;
+          let j=0;
+          for(let i=0;i<arr.length;i++)
+          {
+              if(arr[i]!=""&&arr[i]!=undefined)
+              {
+                counter++;
+              }
+          }
+          for(let i=0;i<arr.length;i++)
+          {
+              if(arr[i]!=""&&arr[i]!=undefined)
+              {
+                k=i;
+                break;
+              }
+          }
+         if(counter==1)
+            {
+                let id1="fh"+(k+1);
+                hobbie = document.getElementById(id1).value;
+                body1 = `My Hobbie is ${hobbie}.`;
+            }
+            if(counter>1)
+            {
+                hobbie2="";
+                hobbie2 = arr[k]; 
+                    
+                for(let i=k+1;i<arr.length;i++)
+                {
+                    if(arr[i]!=""&&arr[i]!=undefined)
+                    {
+                    hobbie2 = hobbie2+","+arr[i];
+                    }
+                }
+                 let j = hobbie2.lastIndexOf(",");
+                 hobbie2 = hobbie2.slice(0,j)+"&"+hobbie2.slice(j+1,hobbie2.length);
+                
+                 body1 = `My Hobbies are ${hobbie2}.`
+           }
+
         
         fetchname.innerHTML = `<p>${header}<br>
                 ${body1}<br>
                 ${footer}.</p>`;
        }
 
-       function removehobbies()
-       {
-          var updatedhobbies="";
-          var totalelements=0;
-          var k=0;
-          for(let i=0;i<arr.length;i++)
-          {
-            if(arr[i]!="")
-            {
-                totalelements++;
-                k=i;
-            }
-          }
-         if(totalelements==0)
-         {
-            updatedhobbies="Please Enter a hobbie";
-            body1=updatedhobbies;
-         }
-         if(totalelements==1)
-         {
-            updatedhobbies=`My Hobbie is ${arr[k]}`;
-            body1=updatedhobbies; 
-         }
-         if(totalelements>1)
-         {
-            for(let i=0;i<arr.length;i++)
-            {
-                if(arr[i]!=""&&updatedhobbies!="")
-                {
-                    updatedhobbies=updatedhobbies+","+arr[i];
-                }
-                if(arr[i]!=""&&updatedhobbies=="")
-                {
-                    updatedhobbies=arr[i];
-
-                }
-            }
-
-         var index = updatedhobbies.lastIndexOf(",");
-         updatedhobbies = updatedhobbies.slice(0,index)+"&"+updatedhobbies.slice(index+1,updatedhobbies.length);
-         body1=`My Hobbies are ${updatedhobbies}`;
-        }
-        display();
-
-
-       }
 
        function del(deletioncounter)
        { 
@@ -237,7 +191,7 @@
            var j = document.getElementById(id2);
            j.style.visibility='hidden';
          get.parentNode.remove();
-         removehobbies();
+         display();
 
 
           
