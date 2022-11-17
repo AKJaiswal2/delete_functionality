@@ -11,7 +11,7 @@
             margin-top: 30px;
             margin-left: 560px;
             background: #CCCCCC;
-           height: 150px;
+           height: 350px;
            width: 450px;
             position: relative;
             
@@ -46,54 +46,52 @@
                 <br>
                 <br>
                 <tr  id="btna">
-                    <td><input type="button" name="button" id="btn" value="Add Hobbies" onclick="addrow()"></td>
+                    <td><input type="button" name="button" id="btn" value="Add Hobbies" onclick="addrow(0)"></td>
 
                 </tr>
                 </center>
             
-
-    <div id="paragraph" class="px1" >
+    <div class="px1">
+    <div id="header">
      <p>I, ______, would like to apply for an internship at your organisation.<br>
-        My Qualification is __________.<br>
-        My hobbies are ______, ________ & __________.<br>
+        My Qualification is __________.</p><br>
+    </div>
+    <div id="body">
+    
+        <p>My hobbies are ______, ________ & __________.</p><br>
+    </div>
+    <div id="footer">
         Thanking you,<br>
         Your Sincerely<br>
         _____________</p>
-
+    </div>
     </div>
 
     <script>
-        var name="";
-        var qualification="";
-        let additioncounter=0;
-        let deletioncounter=0;
-        var hobbie="";
-        var hobbie2="";
-        var additionid;
-        var deletionid;
+
+
         var arr=[];
-        var header="";
-        var footer="";
-        var body1="";
-        var fetchname;
+
+        function addhobbies(additioncounter){
+            var  additionid = "fh"+additioncounter;
+            var  hobbie = document.getElementById(additionid).value;
+            arr[additioncounter-1]=hobbie;
+            display();
+
+        }
+       
       
         
         function addnq(){
-         var name = document.getElementById('fname').value;
-         var qualification = document.getElementById('fq').value;
-         if(additioncounter>0)
-         {
-         additionid = "fh"+additioncounter;
-         hobbie = document.getElementById(additionid).value;
-         arr[additioncounter-1]=hobbie;
-
-         }
-         fetchname = document.getElementById('paragraph');
-          header = `I,${name}, would like to apply for an internship at your organisation.<br>My Qualification is ${qualification}.`;
-          body1="Please Enter A hobbie";
-          footer = ` Thanking you,<br>Your Sincerely<br>${name}`;
+            var body1="";
+            var name = document.getElementById('fname').value;
+            var qualification = document.getElementById('fq').value;
+            var header = document.getElementById('header');
+            var footer = document.getElementById('footer');
+         
+          header.innerHTML= `I,${name}, would like to apply for an internship at your organisation.<br>My Qualification is ${qualification}.`;
+          footer.innerHTML = ` Thanking you,<br>Your Sincerely<br>${name}`;
           
-           display();
            
     }
         
@@ -125,6 +123,12 @@
 
        function display()
        {
+        fetchhobbie = document.getElementById('body');
+
+        var body1="";
+
+        var hobbie2="";
+
         body1="My Hobbie is ";
         let counter=0;
           let k=0;
@@ -147,7 +151,7 @@
          if(counter==1)
             {
                 let id1="fh"+(k+1);
-                hobbie = document.getElementById(id1).value;
+               var hobbie = document.getElementById(id1).value;
                 body1 = `My Hobbie is ${hobbie}.`;
             }
             if(counter>1)
@@ -169,9 +173,7 @@
            }
 
         
-        fetchname.innerHTML = `<p>${header}<br>
-                ${body1}<br>
-                ${footer}.</p>`;
+        fetchhobbie.innerHTML = `<p>${body1}</p><br>`
        }
 
 
@@ -203,19 +205,25 @@
        {
           var number = id.slice(2,id.length);
           additioncounter=number; 
-          addnq();
+          addhobbies(additioncounter);
        }
 
        function getidofelementtobedeleted(id)
        {
          var number = id.slice(2,id.length);
-         deletioncounter=number;
+        var  deletioncounter=number;
          del(deletioncounter);
        }
 
-      function addrow(){
+      function addrow(additioncounter){
             var get = document.getElementById('hobbie');
+            if(arr.length==0)
             additioncounter++;
+            else
+            {
+            additioncounter=arr.length;
+            additioncounter++;
+            }
             var hobbiediv = document.createElement("child");
             hobbiediv.innerHTML=`<div id="updatehobbie${additioncounter}">
                     <td><input type="text" name="fh" id="fh${additioncounter}" oninput="getid(id)" onchange="validation(id)"><button id="bt${additioncounter}" onclick="getidofelementtobedeleted(id)">Delete</button></td>
