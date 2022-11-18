@@ -26,14 +26,14 @@
     
                 <div id="updatename">
                     <th>Name</th>
-                    <td><input type="text" name="fname" id="fname" oninput="updateheaderfooter()"></td>
+                    <td><input type="text" name="fname" id="fname" oninput="updateheaderfooter(id,`.putname`)"></td>
                 </div>
                 <br>
                 <br>
             
                 <div id="updateq">
                     <th>Qualification</th>
-                    <td><input type="text" name="fq" id="fq" oninput="updateheaderfooter()"></td>
+                    <td><input type="text" name="fq" id="fq" oninput="updateheaderfooter(id,`putqualification`)"></td>
                 </div>
                 <br>
                 <br>
@@ -88,18 +88,22 @@
        
       
        //updating header & footer 
-        function updateheaderfooter(){
-            var body1="";
-            var name = document.getElementById('fname').value;
-            var qualification = document.getElementById('fq').value;
-            var namespace = document.querySelectorAll('.putname');
-            var qualificationspace = document.getElementById('putqualification');
-         
-          namespace[0].innerHTML = name;
-          namespace[1].innerHTML = name;
-          qualificationspace.innerHTML = qualification;
-          
-           
+        function updateheaderfooter(id,target){
+            if(target.charAt(0)=='.')
+            {
+                   var namespace = document.querySelectorAll(target);
+                   for(let i=0;i<namespace.length;i++)
+                   {
+                      namespace[i].innerHTML = document.getElementById(id).value;
+                   }
+
+            }
+            else
+            {
+                   var qualificationspace = document.getElementById(target);
+                   qualificationspace.innerHTML = document.getElementById(id).value;
+            }
+            
     }
 
 
