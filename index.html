@@ -53,8 +53,8 @@
             
     <div class="px1">
     <div id="header">
-     <p>I, ______, would like to apply for an internship at your organisation.<br>
-        My Qualification is __________.</p><br>
+     <p>I, <span class="putname">______</span>, would like to apply for an internship at your organisation.<br>
+        My Qualification is <span id="putqualification"> __________</span>.</p><br>
     </div>
     <div id="body">
     
@@ -63,7 +63,7 @@
     <div id="footer">
         Thanking you,<br>
         Your Sincerely<br>
-        _____________</p>
+        <span class="putname">_____________</span>.</p>
     </div>
     </div>
 
@@ -92,11 +92,12 @@
             var body1="";
             var name = document.getElementById('fname').value;
             var qualification = document.getElementById('fq').value;
-            var header = document.getElementById('header');
-            var footer = document.getElementById('footer');
+            var namespace = document.querySelectorAll('.putname');
+            var qualificationspace = document.getElementById('putqualification');
          
-          header.innerHTML= `I,${name}, would like to apply for an internship at your organisation.<br>My Qualification is ${qualification}.`;
-          footer.innerHTML = ` Thanking you,<br>Your Sincerely<br>${name}`;
+          namespace[0].innerHTML = name;
+          namespace[1].innerHTML = name;
+          qualificationspace.innerHTML = qualification;
           
            
     }
