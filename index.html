@@ -26,14 +26,14 @@
     
                 <div id="updatename">
                     <th>Name</th>
-                    <td><input type="text" name="fname" id="fname" oninput="addnq()"></td>
+                    <td><input type="text" name="fname" id="fname" oninput="updateheaderfooter()"></td>
                 </div>
                 <br>
                 <br>
             
                 <div id="updateq">
                     <th>Qualification</th>
-                    <td><input type="text" name="fq" id="fq" oninput="addnq()"></td>
+                    <td><input type="text" name="fq" id="fq" oninput="updateheaderfooter()"></td>
                 </div>
                 <br>
                 <br>
@@ -72,17 +72,23 @@
 
         var arr=[];
 
-        function addhobbies(additioncounter){
-            var  additionid = "fh"+additioncounter;
-            var  hobbie = document.getElementById(additionid).value;
-            arr[additioncounter-1]=hobbie;
-            display();
+
+
+       //maintaining array
+        function addhobbiestoarray(id){
+            var  hobbie = document.getElementById(id).value;
+            var currentpostion = id.slice(2,id.length);
+            arr[currentpostion-1]=hobbie;
+            displaybody();
 
         }
+
+
+
        
       
-        
-        function addnq(){
+       //updating header & footer 
+        function updateheaderfooter(){
             var body1="";
             var name = document.getElementById('fname').value;
             var qualification = document.getElementById('fq').value;
@@ -94,7 +100,9 @@
           
            
     }
-        
+
+
+        //validation check for similar hobbies
           function validation(id)
         {
             if(arr.length>=2)
@@ -121,7 +129,9 @@
             }
        }
 
-       function display()
+
+       //displaying hobbies
+       function displaybody()
        {
         fetchhobbie = document.getElementById('body');
 
@@ -177,44 +187,28 @@
        }
 
 
-       function del(deletioncounter)
+       //deleting hobbies
+       function del(id)
        { 
-         var id1 = "updatehobbie"+deletioncounter;
+         var id1 = "updatehobbie"+id.slice(2,id.length);
          var get = document.getElementById(id1);
-        
-         //         get.parentNode.parentNode.removeChild(get);
-         var id = "fh"+deletioncounter;
+         var id = "fh"+id.slice(2,id.length);
          var d = document.getElementById(id);
          d.value="";
-         arr[deletioncounter-1]=d.value;
+         arr[id.slice(2,id.length)-1]=d.value;
             get.removeChild(d);
 
-            var id2 = "bt"+deletioncounter;
+            var id2 = "bt"+id.slice(2,id.length);
            var j = document.getElementById(id2);
            j.style.visibility='hidden';
          get.parentNode.remove();
-         display();
+         displaybody();
+        }
 
 
-          
 
 
-       }
-
-       function getid(id)
-       {
-          var number = id.slice(2,id.length);
-          additioncounter=number; 
-          addhobbies(additioncounter);
-       }
-
-       function getidofelementtobedeleted(id)
-       {
-         var number = id.slice(2,id.length);
-        var  deletioncounter=number;
-         del(deletioncounter);
-       }
-
+      //adding hobbies input
       function addrow(additioncounter){
             var get = document.getElementById('hobbie');
             if(arr.length==0)
@@ -226,7 +220,7 @@
             }
             var hobbiediv = document.createElement("child");
             hobbiediv.innerHTML=`<div id="updatehobbie${additioncounter}">
-                    <td><input type="text" name="fh" id="fh${additioncounter}" oninput="getid(id)" onchange="validation(id)"><button id="bt${additioncounter}" onclick="getidofelementtobedeleted(id)">Delete</button></td>
+                    <td><input type="text" name="fh" id="fh${additioncounter}" oninput="addhobbiestoarray(id)" onchange="validation(id)"><button id="bt${additioncounter}" onclick="del(id)">Delete</button></td>
                 </div>  
                 <br>`;
             get.appendChild(hobbiediv);
