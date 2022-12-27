@@ -37,28 +37,45 @@
                 </div>
                 <br>
                 <br>
+                <div id="food">
+                    <th>Food</th>
+                    <td><input type="text" id="inputforfood" oninput="updateheaderfooter(id,`putfood`)"></td>
+                </div>
+                <br>
+                <br>
                 <div id="hobbie">
                     <th>Hobbie</th>
                     <br>
                     <br>
-                    </div>
-                </div>  
-                <br>
-                <br>
-                <tr  id="btna">
-                    <td><input type="button" name="button" id="btn" value="Add Hobbies" onclick="addrow(0)"></td>
+                </div> 
+                <tr>
+                    <td><input type="button" name="button" id="btn" value="Add Hobbies" onclick="addrow(`hobbie`,`arr`,arr)"></td>
 
                 </tr>
+                <br>
+                <br> 
+                <div id="programminglang">
+                    <th>Programming Language</th>
+                    <br>
+                    <br>              
+                </div>
+                <tr>
+                    <td><input type="button" name="button" id="btn" value="Add Languages" onclick="addrow(`programminglang`,`langarr`,langarr)"></td>
+                </tr> 
                 </center>
             
     <div class="px1">
     <div id="header">
      <p>I, <span class="putname">______</span>, would like to apply for an internship at your organisation.<br>
-        My Qualification is <span id="putqualification"> __________</span>.</p><br>
+        My Qualification is <span id="putqualification"> __________</span>,<br>
+        My Favourite Food is <span id="putfood">_________</span>.</p><br>
     </div>
     <div id="body">
     
         <p>My hobbies are ______, ________ & __________.</p><br>
+    </div>
+    <div id="lan">
+        <p>My Favourite Programming are ________, ________ & ________.</p><br>
     </div>
     <div id="footer">
         Thanking you,<br>
@@ -71,17 +88,17 @@
 
        //global variable
         var arr=[];
-
+        var langarr=[];
 
 
        //adding hobbies into array
-        function addhobbiestoarray(id){
-            var  hobbie = document.getElementById(id).value;
-            var currentpostion = id.slice(2,id.length);
-            arr[currentpostion-1]=hobbie;
-            displaybody();
+        function addvaluestoarray(id,currentindex,currentarr){
+            var  value = document.getElementById(id).value;
+            currentarr[currentindex] = value;
+            displaybody(id,currentarr);
 
         }
+
 
 
 
@@ -100,8 +117,8 @@
             }
             else
             {
-                   var qualificationspace = document.getElementById(target);
-                   qualificationspace.innerHTML = document.getElementById(id).value;
+                   var targetspan = document.getElementById(target);
+                   targetspan.innerHTML = document.getElementById(id).value;
             }
             
     }
@@ -135,29 +152,39 @@
        }
 
 
-       //displaying hobbies
-       function displaybody()
+       //displaying UserData
+       function displaybody(id,currentarr)
        {
-        fetchhobbie = document.getElementById('body');
-
-        var body1="";
-
-        var hobbie2="";
-
-        body1="My Hobbie is ";
-        let counter=0;
-          let k=0;
-          let j=0;
-          for(let i=0;i<arr.length;i++)
+        var bodystring="";
+        var fetch;
+        var userinput="";
+        var counter=0;
+        var k=0;
+        var j=0;
+        var id1="";
+        if(id.slice(0,6)=="hobbie")
+        {
+            bodystring = "My Hobbie is ";
+            fetch = document.getElementById('body');
+            id1="hobbie";
+        }
+        else
+        {
+            bodystring = "My Favourite Programming Language is ";
+            fetch = document.getElementById('lan');
+            id1="programminglang";
+        }
+          
+        for(let i=0;i<currentarr.length;i++)
           {
-              if(arr[i]!=""&&arr[i]!=undefined)
+              if(currentarr[i]!=""&&currentarr[i]!=undefined)
               {
                 counter++;
               }
           }
-          for(let i=0;i<arr.length;i++)
+          for(let i=0;i<currentarr.length;i++)
           {
-              if(arr[i]!=""&&arr[i]!=undefined)
+              if(currentarr[i]!=""&&currentarr[i]!=undefined)
               {
                 k=i;
                 break;
@@ -165,72 +192,65 @@
           }
          if(counter==1)
             {
-                let id1="fh"+(k+1);
-               var hobbie = document.getElementById(id1).value;
-                body1 = `My Hobbie is ${hobbie}.`;
+                id1=id1+(k);
+               userinput = document.getElementById(id1).value;
+                bodystring = bodystring+`${userinput}`;
             }
             if(counter>1)
             {
-                hobbie2="";
-                hobbie2 = arr[k]; 
+                userinput="";
+                userinput = currentarr[k]; 
                     
-                for(let i=k+1;i<arr.length;i++)
+                for(let i=k+1;i<currentarr.length;i++)
                 {
-                    if(arr[i]!=""&&arr[i]!=undefined)
+                    if(currentarr[i]!=""&&currentarr[i]!=undefined)
                     {
-                    hobbie2 = hobbie2+","+arr[i];
+                 userinput = userinput+","+currentarr[i];
                     }
                 }
-                 let j = hobbie2.lastIndexOf(",");
-                 hobbie2 = hobbie2.slice(0,j)+"&"+hobbie2.slice(j+1,hobbie2.length);
+                 let j = userinput.lastIndexOf(",");
+                 userinput = userinput.slice(0,j)+"&"+userinput.slice(j+1,userinput.length);
                 
-                 body1 = `My Hobbies are ${hobbie2}.`
+                 bodystring = bodystring+`${userinput}`;
            }
 
         
-        fetchhobbie.innerHTML = `<p>${body1}</p><br>`
+        fetch.innerHTML = `<p>${bodystring}</p><br>`
        }
 
 
-       //deleting hobbies
-       function del(id)
-       { 
-         var id1 = "updatehobbie"+id.slice(2,id.length);
-         var get = document.getElementById(id1);
-         var id = "fh"+id.slice(2,id.length);
-         var d = document.getElementById(id);
-         d.value="";
-         arr[id.slice(2,id.length)-1]=d.value;
-            get.removeChild(d);
 
-            var id2 = "bt"+id.slice(2,id.length);
+       //deleting data
+       function del(buttonid,currentarr,id)
+       { 
+         var id1 = "updatehobbie"+buttonid.slice(2,buttonid.length);
+         var get = document.getElementById(id1);
+         currentarr[buttonid.slice(2,buttonid.length)]="";
+            var id2 = "bt"+buttonid.slice(2,buttonid.length);
            var j = document.getElementById(id2);
            j.style.visibility='hidden';
          get.parentNode.remove();
-         displaybody();
+         displaybody(id,currentarr);
         }
 
 
 
 
-      //adding hobbies input
-      function addrow(additioncounter){
-            var get = document.getElementById('hobbie');
-            if(arr.length==0)
-            additioncounter++;
-            else
-            {
-            additioncounter=arr.length;
-            additioncounter++;
-            }
-            var hobbiediv = document.createElement("child");
-            hobbiediv.innerHTML=`<div id="updatehobbie${additioncounter}">
-                    <td><input type="text" name="fh" id="fh${additioncounter}" oninput="addhobbiestoarray(id)" onchange="validation(id)"><button id="bt${additioncounter}" onclick="del(id)">Delete</button></td>
+      //adding data input
+      function addrow(inputid,currentarr,currentindex){
+            var get = document.getElementById(inputid);
+            var targetdiv = document.createElement("child");
+            var arraycounter = currentindex.length;
+            targetdiv.innerHTML=`<div id="updatehobbie${arraycounter}">
+                    <td><input type="text" name="fh" id="${inputid}${arraycounter}" oninput="addvaluestoarray(id,${arraycounter},${currentarr})" onchange="validation(id)"><button id="bt${arraycounter}" onclick="del(id,${currentarr},'${inputid}${arraycounter}')">Delete</button></td>
                 </div>  
                 <br>`;
-            get.appendChild(hobbiediv);
+            get.appendChild(targetdiv);
     }
     </script>
     
 </body>
+
 </html>
+
+
